@@ -704,7 +704,7 @@ input, textarea {width:100%; padding:8px; margin:8px 0; border-radius:5px; borde
   <nav>
     <a id="homeLink">Home</a>
     <a id="aboutLink">About</a>
-    <a id="productLink">flower SHOP</a>
+    <a id="productLink">flower Product</a>
     <a id="contactLink">Contact</a>
     <a id="cartLink">Cart (<span id="cartCount">0</span>)</a>
     <a id="myOrdersLink">My Orders</a>
@@ -921,9 +921,7 @@ input, textarea {width:100%; padding:8px; margin:8px 0; border-radius:5px; borde
   </div>
 </div>
 
-<audio id="bgMusic" autoplay loop>
-  <source src="go.mp3.mp3" type="audio/mpeg">
-</audio>
+<audio id="bgMusic"></audio>
 
 <div class="floating-flowers"></div>
 
@@ -948,10 +946,39 @@ let users=JSON.parse(localStorage.getItem('users'))||{};
 let currentUser=localStorage.getItem('currentUser');
 let orders=JSON.parse(localStorage.getItem('orders'))||[];
 
-document.addEventListener("click", function() {
-  const music = document.getElementById("bgMusic");
-  music.play();
+// document.addEventListener("click", function() {
+//   const music = document.getElementById("bgMusic");
+//   music.play();
+// }, { once: true });
+ const musicList = [
+  "go.mp3.mp3",
+  "dance.mp3"
+ 
+];
+
+let currentTrack = 0;
+const player = document.getElementById("bgMusic");
+
+// Play first music after user interaction
+document.addEventListener("click", () => {
+  playMusic();
 }, { once: true });
+
+function playMusic() {
+  player.src = musicList[currentTrack];
+  player.play();
+}
+
+// When music ends → play next
+player.addEventListener("ended", () => {
+  currentTrack++;
+  
+  if (currentTrack >= musicList.length) {
+    currentTrack = 0; // 🔁 ulit from start (loop playlist)
+  }
+
+  playMusic();
+});
 
 function updateCartCount(){document.getElementById('cartCount').innerText=cart.length;}
 function showSection(id){
