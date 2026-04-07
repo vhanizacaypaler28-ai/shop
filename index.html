@@ -1,0 +1,1272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width initial-scale=1.0">
+<title>Flower Shop</title>
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family: Arial, sans-serif; background:skyblue;}
+header {background: linear-gradient(45deg, #fa846c, #e70068, #124950, #514a9d);  animation: gradientMove 2s ease 0s infinite; color:#000; display:flex; justify-content:space-between; align-items:center; padding:15px 30px; position:sticky; top:0; z-index:100;}
+ @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+header h1 {margin:0; font-size: 30px; text-shadow: 10px 9px 8px;}
+nav a {color:#000; margin-left:15px; text-decoration:none; cursor:pointer;}
+nav a:hover {text-decoration:underline;}
+.parallax {position:relative; min-height:70vh; background-attachment:fixed; background-position:center; background-repeat:no-repeat; background-size:cover; display:flex; justify-content:center; align-items:center; text-align:center; color:rgb(255, 252, 252);}
+.parallax::before {content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(22, 82, 79, 0.4); z-index:0;}
+.parallax-content {position: relative; z-index:1; padding:0 20px;}
+.products {display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin:20px;}
+.product {background:white; padding:15px; border-radius:8px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s;}
+.product:hover {transform:translateY(-5px); box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+.product img {width:100%; height:300px; object-fit:cover; border-radius:8px;}
+button {background:#007bff; color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer; transition:0.3s;}
+button:hover {background:#0056b3;}
+#registerForm,#cart,#checkout,#contactSection {display:none; background:skyblue; padding:20px; border-radius:8px; max-width:600px; margin:20px auto; box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+input, textarea {width:100%; padding:8px; margin:8px 0; border-radius:5px; border:1px solid #ccc;}
+.rating {font-size:16px; margin:10px 0; cursor:pointer;}
+.rating .star {color:#ccc; font-size:18px; margin-right:2px;}
+.rating .star.filled {color:#f5a623;}
+.rating .rating-value {margin-left:5px; font-size:14px; color:#555;}
+#searchBar {width:95%; max-width:400px; padding:8px; margin:20px auto; display:block; border-radius:5px; border:1px solid #ccc;}
+   
+      #loginForm {
+           
+           padding:20px;
+           border-radius:10px;
+           max-width:600px;
+           margin:20px auto;
+           box-shadow:0 2px 8px rgba(0,0,0,0.2);
+           width: 350px;
+           height: 350px;
+           
+            
+      }
+     #loginUsername, #loginPassword{
+          
+          color:#000;
+          font-size:20px;
+          
+     }
+     .head{
+          color: #ccc;
+          text-align:center;
+          font-size:25px;
+     }
+     .bnt{
+      width: 150px; 
+      height: 50px;
+     border-radius: 40px;
+     font-size: 20px;
+     }
+     #tnt{
+        font-size: 15px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        text-indent: 20px;
+        margin-top: 10px;
+     }
+     #ptn {
+  max-width: 600px;
+  margin-inline: auto;
+  color: var(--extra-light);
+  text-align: center;
+  line-height: 1.75rem;
+}
+.header__container {
+  padding-top: 8rem;
+  display: grid;
+  gap: 2rem;
+  isolation: isolate;
+}
+.header__content {
+  text-align: center;
+}
+.header__content h1 {
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  text-align: center;
+}
+.header__content .section__description {
+  margin-bottom: 2rem;
+}
+.header__image {
+  position: relative;
+  isolation: isolate;
+  z-index: -1;
+}
+.header__image img {
+  max-width: 450px;
+  margin-inline: auto;
+  border-radius: 25rem;
+}
+.header__image::after {
+  position: absolute;
+  content: "MICHAEL";
+  letter-spacing: 1.5rem;
+  opacity: 0.5;
+  right: 1rem;
+  top: 50%;
+  transform: translate(50%, -50%) rotate(90deg);
+}
+.about__container {
+  display: grid;
+  gap: 2rem;
+}
+.about__image {
+  position: relative;
+  isolation: isolate;
+  max-width: 400px;
+  margin: auto;
+}
+.about__img {
+  border-radius: 100%;
+}
+.about__bg-1,
+.about__bg-2 {
+  position: absolute;
+  max-width: 150px;
+  z-index: -1;
+}
+.about__bg-1 {
+  top: 0;
+  left: 0;
+}
+.about__bg-2 {
+  right: 0;
+  bottom: 0;
+}
+.about__content {
+  text-align: center;
+}
+.about__content .section__description {
+  margin-bottom: 2rem;
+}
+.service__grid {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+.service__card {
+  padding: 2rem 1rem;
+  text-align: center;
+  background-image: var(--gradient-2);
+  border-radius: 1rem;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.service__card span {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+.service__card h4 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.service__card p {
+  color: var(--extra-light);
+  line-height: 2rem;
+}
+.portfolio__grid {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+.portfolio__card {
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.portfolio__card img {
+  transition: 0.5s;
+}
+.portfolio__card:hover img {
+  transform: scale(1.1);
+}
+.portfolio__banner {
+  margin-top: 2rem;
+  padding: 2rem;
+  display: grid;
+  gap: 2rem;
+  text-align: center;
+  background-image: var(--gradient-2);
+  border-radius: 1rem;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.portfolio__banner__card span {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+.portfolio__banner__card h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.portfolio__banner__card p {
+  font-weight: 500;
+}
+
+@media (width > 576px) {
+  .service__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .portfolio__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .portfolio__banner {
+    grid-template-columns: repeat(2, 1fr);
+    text-align: left;
+  }
+}
+
+@media (width > 768px) {
+  nav {
+    padding: 2rem 1rem;
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+ .header__content .section__description {
+    text-align: left;
+    margin-inline-start: unset;
+  }
+
+  .about__container {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+  }
+
+  .about__content,
+  .about__content :is(.section__header, .section__description) {
+    text-align: left;
+  }
+
+  .service__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .portfolio__container :is(.section__header, .section__description) {
+    text-align: left;
+    margin-inline-start: unset;
+  }
+
+  .portfolio__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .portfolio__banner {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+  /* Reset and base styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    h5 {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(45deg, #8a5c53, #c94681, #058fa1, #251e6e);
+      background-size: 200% 200%;
+      animation: gradientMove 10s ease infinite;
+      color: #fff;
+      padding: 50px 20px;
+      
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h5 {
+      font-size: 42px;
+      font-weight: 500;
+      margin-bottom: 15px;
+      
+    }
+
+    p {
+      font-size: 16px;
+      max-width: 650px;
+      margin: 0 auto 35px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 60px;
+    }
+
+    .btn {
+      background: white;
+      color: #333;
+      border: none;
+      outline: none;
+      padding: 12px 28px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #ffcc00;
+      color: #000;
+      transform: translateY(-3px);
+    }
+
+    /* Cards */
+    .cards {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      max-width: 1000px;
+    }
+
+    .card {
+      background: #fff;
+      color: #111;
+      width: 200px;
+      height: 170px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .purple { color: #6a5acd; }
+    .red { color: #e74c3c; }
+    .teal { color: #009688; }
+    .gold { color: #f1c40f; }
+
+    .card h4 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cards {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h5 {
+        font-size: 32px;
+      }
+      p {
+        font-size: 15px;
+        margin-bottom: 25px;
+      }
+      .card {
+        width: 90%;
+        height: 150px;
+      }
+    }
+
+    .add{
+      width: 100px;
+      height: 80px;
+      border-radius: 50%;
+    }
+
+    .bfo{
+      background: #fff;
+      color: #111;
+      width: 250px;
+      height: 190px;
+      border-radius: 20px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease
+      
+    }
+
+    .bfo:hover{
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .clo{
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+       transition: transform 0.3s ease, box-shadow 0.3s ease;
+       display: flex;
+    }
+
+    .clo:hover{
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .fan{
+      width: 900px;
+      height: 500px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin: 15px;
+    }
+
+    .fan:hover{
+       transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+  .fanl{
+    width: 450px;
+    height: 300px;
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .fanl:hover{
+       transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+     footer {
+      background-color:transparent;
+      color: white;
+      text-align: center;
+      padding: 5px;
+      margin-top: 20px;
+    }
+
+/* ===== ADMIN PANEL STYLING ===== */
+#adminPanel {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-top: 4px solid #333;
+}
+
+#adminPanel h1 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+#adminPanel p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+#pendingCount {
+  font-weight: bold;
+  color: #d9534f; /* red for pending orders */
+  margin-right: 10px;
+}
+
+#completeAllBtn {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+#completeAllBtn:hover {
+  background-color: #218838;
+}
+
+#adminOrders {
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+}
+
+#adminOrders th, #adminOrders td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+#adminOrders th {
+  background-color: #333;
+  color: white;
+}
+
+#adminOrders tr:nth-child(even){
+  background-color: #f9f9f9;
+}
+
+#adminOrders tr:hover {
+  background-color: #f1f1f1;
+}
+
+.new-order {
+  background-color: #fff3cd; /* light yellow for new orders */
+  transition: background-color 2s ease;
+}
+
+.new-order.faded {
+  background-color: transparent;
+}
+
+#adminOrders button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#adminOrders button:hover {
+  background-color: #0056b3;
+}
+.rating {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.star {
+  color: #ccc;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star:hover,
+.star.filled {
+  color: #f5a623;
+}
+
+#poit{
+  text-shadow: 10px 9px 8px;
+  font-size: 40px;
+}
+
+#min{
+  text-shadow: 5px 6px 4px #009688;
+  font-size: 30px;
+  font-style: italic;
+ padding-top: 50px;
+  
+}
+
+#pin{
+  font-size: 20px;
+  text-shadow: 5px 6px 4px #009688;
+   font-style: italic;
+}
+
+#ftnl{
+   font-size: 20px;
+   font-style: italic;
+   text-shadow: 5px 6px 7px #009688;
+}
+     
+     .profile-pic{
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      overflow:hidden;
+      margin:0 auto 18px;
+      border:3px solid rgba(255,255,255,0.08);
+    }
+     
+     .profile-pic img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .slideshow {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 20px auto;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 1s ease-in-out, transform 1s;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+     .modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+.floating-flowers::before,
+.floating-flowers::after {
+  content: "🌸 🌺 🌼 🌻";
+  position: fixed;
+  top: -50px;
+  font-size: 30px;
+  animation: fall 10s linear infinite;
+}
+
+.floating-flowers::after {
+  left: 50%;
+  animation-delay: 5s;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-50px) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  margin: 15% auto;
+  width: 300px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.cancel-animation {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: red;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: none;
+  animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Flower Shop</h1>
+  <nav>
+    <a id="homeLink">Home</a>
+    <a id="aboutLink">About</a>
+    <a id="productLink">flower SHOP</a>
+    <a id="contactLink">Contact</a>
+    <a id="cartLink">Cart (<span id="cartCount">0</span>)</a>
+    <a id="myOrdersLink">My Orders</a>
+    <a id="loginLink">Login</a>
+    <a id="registerLink">Register</a>
+    <a id="logoutLink" style="display:none;">Logout</a>
+  </nav>
+  <p id="userBalance" style="text-align:center; font-size:20px; color:white; margin-top:10px;"></p>
+</header>
+
+<div class="parallax" id="homeSection" style="display:none; background-image:url('https://images.unsplash.com/photo-1503342452485-86fdb5b75c70?auto=format&fit=crop&w=1950&q=80');">
+<div class="parallax-content">
+<h2 id="poit">Welcome to flower shop</h2>
+<img class="clo" src="spring.jpg" alt="slog">
+<p id="tnt">Flowers, also known as blossoms and blooms, 
+    are the reproductive structures of flowering plants.
+     Typically, they are structured in four circular levels around the end of a stalk. 
+     These include: sepals, which are modified leaves that support the flower; petals, 
+     often designed to attract pollinators; male stamens, where pollen is presented;
+      and female gynoecia, where pollen is received and its movement is facilitated to the egg. 
+      When flowers are arranged in a group, 
+    they are known collectively as an inflorescence.
+
+          
+    <section class="section__container portfolio__container" id="portfolio">
+      <h2 class="section__header">My Portfolio</h2>
+      <p class="section__description">
+        Explore a showcase of my diverse projects, demonstrating my skills in
+        web development, design, and beyond. Each project reflects my passion
+        for creating impactful and innovative digital experiences.
+      </p>
+      <div class="portfolio__grid">
+        <div class="portfolio__card">
+          <img class="add" src="first.jpg" alt="portfolio" />
+        </div>
+        <div class="portfolio__card">
+          <img class="add" src="second.jpg" alt="portfolio" />
+        </div>
+        <div class="portfolio__card">
+          <img class="add" src="third.jpg" alt="portfolio" />
+        </div>
+        <div class="portfolio__card">
+          <img class="add" src="fourth.jpg" alt="portfolio" />
+        </div>
+        <div class="portfolio__card">
+          <img class="add" src="fith.jpg" alt="portfolio" />
+        </div>
+        <div class="portfolio__card">
+          <img class="add" src="six.jpg" alt="portfolio" />
+        </div>
+      </div>
+      <div class="portfolio__banner">
+        <div class="portfolio__banner__card">
+          <span><i class="ri-macbook-line"></i></span>
+          <h4>150+ Securer</h4>
+          <p>Delivered</p>
+        </div>
+        <div class="portfolio__banner__card">
+          <span><i class="ri-discuss-line"></i></span>
+          <h4>1500+ Happy</h4>
+          <p>Customers</p>
+        </div>
+        <div class="portfolio__banner__card">
+          <span><i class="ri-heart-fill"></i></span>
+          <h4>2700+ Lovely</h4>
+          <p>Feedbacks</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+    <p id="ftnl">© 2025 to 2026 Bloom Flower by only one | All Rights Reserved.</p>
+    
+  </footer>
+</p>
+</div>
+</div>
+
+<div class="parallax" id="aboutSection" style="display:none; background-image:url('https://images.unsplash.com/photo-1521335629791-ce4aec67dd47?auto=format&fit=crop&w=1950&q=80');">
+<div class="parallax-content">
+<h2>About Us</h2>
+<p id="pnt">After pollination, the sex cells are fused together in the process of fertilisation, 
+    which is a key step in sexual reproduction. Through cellular and nuclear divisions, 
+    the resulting cell grows into a seed, which contains structures to assist in the future plant's survival and growth. 
+    At the same time, the female part of the flower forms into a fruit, and the other floral structures die. 
+    The function of fruit is to protect the seed and aid in its dispersal away from the mother plant. 
+    Seeds can be dispersed by living things, such as birds who eat the fruit and distribute the seeds when they defecate.
+     Non-living things like wind and water can also help to disperse the seeds.
+</p>
+ <h5>New team Only one</h5>
+ <img class="bfo" src="Gemini_Generated_Image_v1kndlv1kndlv1kn.png" alt="loo">
+ <img class="bfo" src="1763108215578.jpg" alt="loo">
+     <p>
+   The some of more tall and pure with someone to look you other self one 
+   so that love your beauty in food look.
+  </p>
+
+  <div class="btn-group">
+    <button class="btn">INFORMER</button>
+    <button class="btn">Our Works</button>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="icon purple">🏵️</div>
+      <h4>SIMPLE</h4>
+    </div>
+    <div class="card">
+      <div class="icon red">🌺</div>
+      <h4>style of web star </h4>
+    </div>
+    <div class="card">
+      <div class="icon teal">🌻</div>
+      <h4>for the first time web</h4>
+    </div>
+    <div class="card">
+      <div class="icon gold">🌼</div>
+      <h4>GIFTS</h4>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div id="productSection" style="display:none;">
+<input type="text" id="searchBar" placeholder="Search products...">
+<div class="products" id="productList"></div>
+</div>
+
+<div class="parallax" id="contactSection" style="display:none; background-image:url('https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=1950&q=80');">
+<div class="parallax-content">
+<h2>Contact Us</h2>
+<form id="contactForm">
+<input type="text" id="contactName" placeholder="Your Name" required>
+<input type="email" id="contactEmail" placeholder="Your Email" required>
+<textarea id="contactMessage" placeholder="Your Message" rows="5" required></textarea>
+<button type="button" onclick="submitContact()">Send Message</button>
+</form>
+</div>
+</div>
+
+<!-- LOGIN -->
+<div id="loginForm">
+     <div class="profile-pic">
+      <img src="bloom.jpg" alt="Profile Picture" />
+    </div>
+  <h3>Login</h3>
+  <input id="loginUsername" placeholder="Username">
+  <input id="loginPassword" placeholder="Password" type="password">
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- REGISTER -->
+<div id="registerForm">
+     <div class="profile-pic">
+      <img src="ser.jpg" alt="Profile Picture" />
+    </div>
+  <h3>Register</h3>
+  <input id="registerUsername" placeholder="Username">
+  <input id="registerPassword" placeholder="Password" type="password">
+  <button onclick="register()">Register</button>
+</div>
+
+<!-- CART -->
+<div id="cart">
+  <h2>Your Cart</h2>
+  <ul id="cartItems"></ul>
+  <p><strong>Total: ₱<span id="cartTotal">0</span></strong></p>
+  <button onclick="goToCheckout()">Checkout</button>
+</div>
+
+<!-- CHECKOUT -->
+<div id="checkout">
+  <h2>Checkout</h2>
+  <div id="checkoutSummary"></div>
+  
+  <h3>Choose Payment Method</h3>
+  <label>
+    <input type="radio" name="paymentMethod" value="Cash" checked> Cash
+  </label>
+  <label>
+    <input type="radio" name="paymentMethod" value="Gcash"> Gcash
+  </label>
+  
+  <div id="gcashDetails" style="display:none; margin-top:10px;">
+    <input id="gcashNumber" placeholder="Enter Gcash number">
+  </div>
+  
+  <button onclick="simulatePayment()">Pay Now</button>
+</div>
+
+<!-- MY ORDERS -->
+<div id="myOrders">
+  <h2>My Orders</h2>
+  <table border="1" width="100%">
+   <thead>
+  <tr>
+    <th>Item</th>
+    <th>Price</th>
+    <th>Date</th>
+    <th>Payment</th>
+    <th>Status</th>
+  </tr>
+</thead>
+    <tbody id="userOrdersTable"></tbody>
+  </table>
+</div>
+<div id="cancelAnimation" class="cancel-animation">❌ Order Cancelled</div>
+<div id="cancelModal" class="modal">
+  <div class="modal-content">
+    <p>Are you sure you want to cancel this order?</p>
+    <button onclick="confirmCancel()">Yes, Cancel</button>
+    <button onclick="closeModal()">No</button>
+  </div>
+</div>
+
+<audio id="bgMusic" autoplay loop>
+  <source src="go.mp3.mp3" type="audio/mpeg">
+</audio>
+
+<div class="floating-flowers"></div>
+
+<div class="slideshow">
+  <img src="bloom.jpg" class="slide active">
+  <img src="six.jpg" class="slide">
+  <img src="spring.jpg" class="slide">
+</div>
+
+<script>
+let products=[
+  {name:'cabbage-momos',price:250,img:'one.jpg', rating:5},
+  {name:'Lopl Chin',price:200,img:'two.jpg', rating:5},
+  {name:'Wong Hanl',price:250,img:'tree.jpg', rating:5},
+  {name:'Choso lee',price:250,img:'four.jpg', rating:5},
+  {name:'Mocha han',price:250,img:'five.jpg', rating:5},
+  {name:'Galmn nom',price:250,img:'insex.jpg', rating:5},
+ ];
+
+let cart=JSON.parse(localStorage.getItem('cart'))||[];
+let users=JSON.parse(localStorage.getItem('users'))||{};
+let currentUser=localStorage.getItem('currentUser');
+let orders=JSON.parse(localStorage.getItem('orders'))||[];
+
+document.addEventListener("click", function() {
+  const music = document.getElementById("bgMusic");
+  music.play();
+}, { once: true });
+
+function updateCartCount(){document.getElementById('cartCount').innerText=cart.length;}
+function showSection(id){
+  ['homeSection','aboutSection','productSection','contactSection','loginForm','registerForm','cart','checkout','myOrders']
+  .forEach(x=>document.getElementById(x).style.display='none');
+  if(!currentUser&&(id!=='loginForm'&&id!=='registerForm')){
+    alert("Please log in first!");document.getElementById('loginForm').style.display='block';return;
+  }
+  document.getElementById(id).style.display='block';
+  if(id==='productSection') renderProducts(products);
+  if(id==='cart') showCart();
+  if(id==='myOrders') showMyOrders();
+}
+
+let slides = document.querySelectorAll(".slide");
+let index = 0;
+
+setInterval(() => {
+  slides[index].classList.remove("active");
+  index = (index + 1) % slides.length;
+  slides[index].classList.add("active");
+}, 3000);
+
+let cancelIndex = null;
+
+function cancelOrder(index){
+  cancelIndex = index;
+  document.getElementById('cancelModal').style.display = 'block';
+}
+
+function closeModal(){
+  document.getElementById('cancelModal').style.display = 'none';
+}
+
+function confirmCancel(){
+  closeModal();
+
+  const myOrders = orders.filter(o => o.user === currentUser);
+  const orderToCancel = myOrders[cancelIndex];
+  const globalIndex = orders.findIndex(o => o === orderToCancel);
+
+  if(globalIndex > -1){
+
+    users[currentUser].balance += orderToCancel.price;
+    orders[globalIndex].status = 'cancelled';
+
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('orders', JSON.stringify(orders));
+
+    updateBalanceDisplay();
+
+    showMyOrders();
+    showCancelAnimation(); // 👉 animation trigger
+    notifyAdmin(orderToCancel); // 👉 admin notification
+  }
+}
+
+function renderProducts(list) {
+  const container = document.getElementById('productList');
+  container.innerHTML = '';
+  list.forEach((p, index) => {
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.innerHTML = `
+      <img src="${p.img}">
+      <h3>${p.name}</h3>
+      <p>₱${p.price}</p>
+      <div class="rating" data-index="${index}">
+        ${renderStars(p.rating)}
+        <span class="rating-value">(${p.rating}/5)</span>
+      </div>
+      <button onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function addToCart(item,price){
+  if(!currentUser){alert("Login first!");showSection('loginForm');return;}
+  cart.push({item,price});localStorage.setItem('cart',JSON.stringify(cart));
+  updateCartCount();alert("Added to cart!");
+}
+function renderStars(rating) {
+  let stars = '';
+  for (let i = 1; i <= 5; i++) {
+    stars += `<span class="star ${i <= rating ? 'filled' : ''}" data-value="${i}">★</span>`;
+  }
+  return stars;
+}
+
+// Handle star clicks for rating
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('star')) {
+    const parent = e.target.closest('.rating');
+    const productIndex = parent.dataset.index;
+    const value = parseInt(e.target.dataset.value);
+    products[productIndex].rating = value;
+    parent.innerHTML = renderStars(value) + `<span class="rating-value">(${value}/5)</span>`;
+    alert(`You rated "${products[productIndex].name}" ${value} stars!`);
+  }
+});
+
+// Rate product
+function rateProduct(e,value){
+    const parent=e.target.parentElement;
+    const name=parent.dataset.name;
+    const product=products.find(p=>p.name===name);
+    product.rating=value;
+    parent.innerHTML=renderStars(value)+`<span class="rating-value">(${value}/5)</span>`;
+}
+function showCart(){
+  const list=document.getElementById('cartItems');list.innerHTML='';let total=0;
+  cart.forEach((p,i)=>{total+=p.price;list.innerHTML+=`<li>${p.item} ₱${p.price} <button onclick="removeFromCart(${i})">Remove</button></li>`;});
+  document.getElementById('cartTotal').innerText=total;
+}
+function removeFromCart(i){cart.splice(i,1);localStorage.setItem('cart',JSON.stringify(cart));updateCartCount();showCart();}
+function goToCheckout(){
+  if(cart.length===0){alert("Cart empty!");return;}
+  showSection('checkout');let total=0;const s=document.getElementById('checkoutSummary');
+  s.innerHTML='<h3>Order Summary</h3><ul>';
+  cart.forEach(p=>{total+=p.price;s.innerHTML+=`<li>${p.item} - ₱${p.price}</li>`;});
+  s.innerHTML+=`</ul><p><strong>Total ₱${total}</strong></p>`;
+}
+  
+// SHOW/HIDE GCASH INPUT BASED ON SELECTION
+document.querySelectorAll('input[name="paymentMethod"]').forEach(radio=>{
+  radio.addEventListener('change', ()=>{
+    document.getElementById('gcashDetails').style.display =
+      radio.value === 'Gcash' ? 'block' : 'none';
+  });
+});
+
+function simulatePayment() {
+  if(cart.length === 0) { alert("No items!"); return; }
+
+  const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+  let gcashNum = '';
+
+  if(method === 'Gcash'){
+    gcashNum = document.getElementById('gcashNumber').value.trim();
+    if(!gcashNum){ alert("Enter your Gcash number!"); return; }
+  }
+
+  // Calculate total
+  let total = cart.reduce((sum, p) => sum + p.price, 0);
+
+  // Check balance
+  if(users[currentUser].balance < total){
+    alert(`Insufficient balance! You have ₱${users[currentUser].balance} left.`);
+    return;
+  }
+
+  // Deduct balance
+  users[currentUser].balance -= total;
+  localStorage.setItem('users', JSON.stringify(users));
+  updateBalanceDisplay();
+
+ const newOrders = cart.map(p => ({
+  user: currentUser,
+  name: p.item,
+  price: p.price,
+  date: new Date().toLocaleString(),
+  completed: false,
+  status: 'pending', // ✅ ADD THIS
+  paymentMethod: method,
+  gcashNumber: gcashNum
+}));
+
+  orders.push(...newOrders);
+  localStorage.setItem('orders', JSON.stringify(orders));
+
+  cart = [];
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+
+  alert("Payment Successful via " + method + "!");
+  showSection('homeSection');
+}
+
+// DISPLAY ORDERS INCLUDING GCASH NUMBER
+function showMyOrders(){
+  const my = orders.filter(o => o.user === currentUser);
+  const tbody = document.getElementById('userOrdersTable');
+
+  tbody.innerHTML = my.length 
+    ? my.map((o, index) => `
+      <tr>
+        <td>${o.name}</td>
+        <td>₱${o.price}</td>
+        <td>${o.date}</td>
+        <td>
+          ${o.paymentMethod} 
+          ${o.paymentMethod === 'Gcash' ? ' (' + o.gcashNumber + ')' : ''}
+        </td>
+        <td>
+          ${
+            o.status === 'cancelled' 
+              ? '❌ Cancelled' 
+              : o.completed 
+                ? '✅ Completed' 
+                : '⏳ Pending'
+          }
+
+          ${
+            !o.completed && o.status !== 'cancelled' 
+              ? `<br><button onclick="cancelOrder(${index})">Cancel</button>` 
+              : ''
+          }
+        </td>
+      </tr>
+    `).join('')
+    : `<tr><td colspan="5">No orders.</td></tr>`;
+}
+
+function cancelOrder(index){
+  if(!confirm("Are you sure you want to cancel this order?")) return;
+
+  const myOrders = orders.filter(o => o.user === currentUser);
+  const orderToCancel = myOrders[index];
+
+  const globalIndex = orders.findIndex(o => o === orderToCancel);
+
+  if(globalIndex > -1){
+
+    // ✅ REFUND
+    users[currentUser].balance += orderToCancel.price;
+
+    // ✅ MARK AS CANCELLED (instead of delete)
+    orders[globalIndex].status = 'cancelled';
+
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('orders', JSON.stringify(orders));
+
+    updateBalanceDisplay();
+    alert("Order cancelled! Your money has been refunded.");
+
+    showMyOrders();
+  }
+}
+
+function showCancelAnimation(){
+  const anim = document.getElementById('cancelAnimation');
+  anim.style.display = 'block';
+
+  setTimeout(() => {
+    anim.style.display = 'none';
+  }, 2000);
+}
+
+function register(){
+  const u = document.getElementById('registerUsername').value.trim();
+  const p = document.getElementById('registerPassword').value.trim();
+  if(users[u]) return alert("Username exists!");
+  
+  users[u] = { password: p, balance: 1000 }; // Set starting balance
+  localStorage.setItem('users', JSON.stringify(users));
+  alert("Registered! Your starting balance is ₱1000. Now login.");
+  showSection('loginForm');
+}
+function login(){
+  const u = document.getElementById('loginUsername').value;
+  const p = document.getElementById('loginPassword').value;
+  if(users[u] && users[u].password === p){
+    if(u === 'admin'){ window.location.href = 'admin.html'; return; }
+    currentUser = u;
+    localStorage.setItem('currentUser', u);
+    alert("Welcome "+u);
+    updateUI();
+    updateBalanceDisplay();
+  } else {
+    alert("Invalid credentials!");
+  }
+}
+function updateBalanceDisplay(){
+  if(currentUser){
+    const balance = users[currentUser].balance;
+    document.getElementById('userBalance').innerText = `Balance: ₱${balance}`;
+  }
+}
+function logout(){localStorage.removeItem('currentUser');currentUser=null;updateUI();}
+function updateUI(){
+  const logged=!!currentUser;
+  document.getElementById('loginLink').style.display=logged?'none':'inline';
+  document.getElementById('registerLink').style.display=logged?'none':'inline';
+  document.getElementById('logoutLink').style.display=logged?'inline':'none';
+  ['homeLink','aboutLink','productLink','contactLink','cartLink','myOrdersLink'].forEach(id=>document.getElementById(id).style.display=logged?'inline':'none');
+  showSection(logged?'homeSection':'loginForm');
+}
+
+function submitContact(){
+  const n=document.getElementById('contactName').value;
+  const e=document.getElementById('contactEmail').value;
+  const m=document.getElementById('contactMessage').value;
+  if(!n||!e||!m)return alert("Fill all fields!");
+  alert("Thank you "+n+"! Message sent!");
+  document.getElementById('contactForm').reset();
+}
+document.getElementById('homeLink').onclick=()=>showSection('homeSection');
+document.getElementById('aboutLink').onclick=()=>showSection('aboutSection');
+document.getElementById('productLink').onclick=()=>showSection('productSection');
+document.getElementById('contactLink').onclick=()=>showSection('contactSection');
+document.getElementById('cartLink').onclick=()=>showSection('cart');
+document.getElementById('loginLink').onclick=()=>showSection('loginForm');
+document.getElementById('registerLink').onclick=()=>showSection('registerForm');
+document.getElementById('logoutLink').onclick=()=>logout();
+document.getElementById('myOrdersLink').onclick=()=>{
+  showSection('myOrders');
+  showMyOrders();
+};
+document.getElementById('searchBar').addEventListener('input',function(){
+  const val=this.value.toLowerCase();renderProducts(products.filter(p=>p.name.toLowerCase().includes(val)));
+});
+updateCartCount();updateUI();
+window.addEventListener('storage',()=>{orders=JSON.parse(localStorage.getItem('orders'))||[];showMyOrders();});
+</script>
+
+</body>
+</html>
